@@ -1,0 +1,6 @@
+@EncrptDecrptAPI_HostAddress = http://localhost:5195
+
+GET {{EncrptDecrptAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
