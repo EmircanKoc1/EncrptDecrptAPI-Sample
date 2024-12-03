@@ -1,7 +1,7 @@
-﻿using EncrptDecrptAPI.Services.Interfaces;
+﻿using EncryptDecryptAPI.Services.Interfaces;
 using System.Security.Cryptography;
 
-namespace EncrptDecrptAPI.Services.Implementations
+namespace EncryptDecryptAPI.Services.Implementations
 {
     public class RandomNumberGeneratorService : IRandomNumberGeneratorService
     {

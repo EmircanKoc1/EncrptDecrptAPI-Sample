@@ -1,4 +1,4 @@
-﻿namespace EncrptDecrptAPI.Models.Response;
+﻿namespace EncryptDecryptAPI.Models.AES;
 
 public record AESEncryptResponseModel(string Key, string IV, string encryptedValue, bool isSuccess);
 

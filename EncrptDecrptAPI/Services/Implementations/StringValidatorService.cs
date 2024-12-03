@@ -1,6 +1,6 @@
-﻿using EncrptDecrptAPI.Services.Interfaces;
+﻿using EncryptDecryptAPI.Services.Interfaces;
 
-namespace EncrptDecrptAPI.Services.Implementations
+namespace EncryptDecryptAPI.Services.Implementations
 {
     public class StringValidatorService : IStringValidatorService
     {

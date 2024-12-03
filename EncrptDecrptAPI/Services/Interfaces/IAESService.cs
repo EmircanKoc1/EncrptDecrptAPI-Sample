@@ -1,6 +1,6 @@
-﻿using EncrptDecrptAPI.Models.Response;
+﻿using EncryptDecryptAPI.Models.AES;
 
-namespace EncrptDecrptAPI.Services.Interfaces
+namespace EncryptDecryptAPI.Services.Interfaces
 {
     public interface IAESService
     {

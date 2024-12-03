@@ -1,7 +1,7 @@
-﻿using EncrptDecrptAPI.Services.Interfaces;
+﻿using EncryptDecryptAPI.Services.Interfaces;
 using System.Text;
 
-namespace EncrptDecrptAPI.Services.Implementations
+namespace EncryptDecryptAPI.Services.Implementations
 {
     public class UTF8EncodingService : IEncodingService
     {

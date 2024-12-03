@@ -1,4 +1,4 @@
-﻿namespace EncrptDecrptAPI.Services.Interfaces
+﻿namespace EncryptDecryptAPI.Services.Interfaces
 {
     public interface IStringValidatorService
     {

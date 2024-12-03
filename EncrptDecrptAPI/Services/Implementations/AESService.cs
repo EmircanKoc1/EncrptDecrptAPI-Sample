@@ -1,8 +1,8 @@
-﻿using EncrptDecrptAPI.Models.Response;
-using EncrptDecrptAPI.Services.Interfaces;
+﻿using EncryptDecryptAPI.Models.AES;
+using EncryptDecryptAPI.Services.Interfaces;
 using System.Security.Cryptography;
 
-namespace EncrptDecrptAPI.Services.Implementations
+namespace EncryptDecryptAPI.Services.Implementations
 {
     public class AESService(
         IEncodingService _encodingService,
@@ -24,7 +24,7 @@ namespace EncrptDecrptAPI.Services.Implementations
             else
                 aes.IV = _encodingService.ConvertToBytes(IV);
 
-            
+
 
             using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
             using var memoryStream = new MemoryStream();

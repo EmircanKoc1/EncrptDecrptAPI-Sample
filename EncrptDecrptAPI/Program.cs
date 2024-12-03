@@ -1,6 +1,6 @@
-using EncrptDecrptAPI.Endpoints;
-using EncrptDecrptAPI.Services.Implementations;
-using EncrptDecrptAPI.Services.Interfaces;
+using EncryptDecryptAPI.Endpoints;
+using EncryptDecryptAPI.Services.Implementations;
+using EncryptDecryptAPI.Services.Interfaces;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

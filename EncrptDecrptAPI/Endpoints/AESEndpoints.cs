@@ -1,9 +1,9 @@
-﻿using EncrptDecrptAPI.Models.Response;
-using EncrptDecrptAPI.Services.Interfaces;
+﻿using EncryptDecryptAPI.Models.AES;
+using EncryptDecryptAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace EncrptDecrptAPI.Endpoints
+namespace EncryptDecryptAPI.Endpoints
 {
     public static class AESEndpoints
     {
