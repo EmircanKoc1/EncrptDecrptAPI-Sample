@@ -1,43 +1,71 @@
-﻿using EncrptDecrptAPI.Services.Interfaces;
+﻿using EncrptDecrptAPI.Models.Response;
+using EncrptDecrptAPI.Services.Interfaces;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace EncrptDecrptAPI.Services.Implementations
 {
-    public class AESService : IAESService
+    public class AESService(
+        IEncodingService _encodingService,
+        IRandomNumberGeneratorService _randomNumberGeneratorService,
+        IStringValidatorService _stringValidatorService,
+        IBase64Service _base64Service) : IAESService
     {
-        public string Encrypt(string key, string IV, string data)
+        public AESEncryptResponseModel Encrypt(string? key, string? IV, string data)
         {
             using var aes = Aes.Create();
 
-            aes.IV = Encoding.UTF8.GetBytes(IV);
-            aes.Key = Encoding.UTF8.GetBytes(key);
+            if (!_stringValidatorService.isValid(key))
+                aes.Key = _randomNumberGeneratorService.GetRandomNumber(16);
+            else
+                aes.Key = _encodingService.ConvertToBytes(key);
 
-            using var encrptor = aes.CreateEncryptor(aes.Key, aes.IV);
+            if (!_stringValidatorService.isValid(IV))
+                aes.IV = _randomNumberGeneratorService.GetRandomNumber(16);
+            else
+                aes.IV = _encodingService.ConvertToBytes(IV);
+
+            
+
+            using var encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
             using var memoryStream = new MemoryStream();
-            using var cryptoStream = new CryptoStream(memoryStream, encrptor, CryptoStreamMode.Write);
-            using var writer = new StreamWriter(cryptoStream);
+            using var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
 
-            writer.Write(data);
+            using (var writer = new StreamWriter(cryptoStream))
+            {
+                writer.Write(data);
+            }
 
-            return Convert.ToBase64String(memoryStream.ToArray());
+
+            var base64AesKey = _base64Service.ConvertToString(aes.Key);
+            var base64AesIV = _base64Service.ConvertToString(aes.IV);
+            var base64EncryptedData = _base64Service.ConvertToString(memoryStream.ToArray());
+
+            return new AESEncryptResponseModel(base64AesKey, base64AesIV, base64EncryptedData, true);
 
         }
 
-        public string Decrypt(string key, string IV, string data)
+        public AESDecryptResponseModel Decrypt(string key, string IV, string data)
         {
+
+            if (!_stringValidatorService.isValid(IV) || !_stringValidatorService.isValid(key))
+                return new AESDecryptResponseModel(string.Empty, false);
 
             using var aes = Aes.Create();
 
-            aes.IV = Encoding.UTF8.GetBytes(IV);
-            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.Key = _base64Service.ConvertFromString(key);
+            aes.IV = _base64Service.ConvertFromString(IV);
 
             using var decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-            using var memoryStream = new MemoryStream(Convert.FromBase64String(data));
+            var base64EncryptedDataBytes = _base64Service.ConvertFromString(data);
+            using var memoryStream = new MemoryStream(base64EncryptedDataBytes);
             using var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            string? decryptedData;
             using var reader = new StreamReader(cryptoStream);
+            {
+                decryptedData = reader.ReadToEnd();
+            }
 
-            return reader.ReadToEnd();
+            return new AESDecryptResponseModel(decryptedData, true);
 
         }
     }
