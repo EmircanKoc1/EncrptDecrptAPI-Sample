@@ -1,4 +1,6 @@
 using EncrptDecrptAPI.Endpoints;
+using EncrptDecrptAPI.Services.Implementations;
+using EncrptDecrptAPI.Services.Interfaces;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi("v1");
 builder.Services.AddOpenApi("v2");
 
+builder.Services.AddSingleton<IAESService, AESService>();
+builder.Services.AddSingleton<IStringValidatorService, StringValidatorService>();
+builder.Services.AddSingleton<IEncodingService, UTF8EncodingService>();
+builder.Services.AddSingleton<IRandomNumberGeneratorService, RandomNumberGeneratorService>();
+builder.Services.AddSingleton<IBase64Service, Base64Service>();
 
 var app = builder.Build();
 
@@ -18,7 +25,7 @@ if (app.Environment.IsDevelopment())
     {
         options.WithTheme(ScalarTheme.BluePlanet);
     });
-    //-->  host/scalar/<v1 or v2>
+    //-->  <host>/scalar/<v1 or v2>
 }
 
 app.MapAESEndpoints();
